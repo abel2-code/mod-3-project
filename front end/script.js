@@ -4,7 +4,7 @@ const form = document.getElementById('form')
 const errorElement = document.getElementById('error')
 const meter = document.getElementById('password-strength-meter');
 const text = document.getElementById('password-strength-text');
-const confirmpassword = document.getElementById('confirm-password')
+const confirmPassword = document.getElementById('confirm-password')
 const strength = {
     0: "Worst ☹",
 	1: "Bad ☹",
@@ -45,6 +45,8 @@ $(document).ready(function () {
     $("#password, #confirm-password").keyup(checkPasswordMatch);
 })
 
+$("#theForm").ajaxForm({url: 'file:///C:/Users/18326/Desktop/mod-3-project/module-3-backend/front%20end/index.html', type: 'post'})
+
 form.addEventListener('submit', e => {
     let messages = []
     if (name.value === '' || name.value == null) {
@@ -53,6 +55,10 @@ form.addEventListener('submit', e => {
 
     if (password.value.length <= 6) {
         messages.push('Password must be longer than 6 characters')
+    }
+
+    if (password.value !== confirmPassword.value) {
+        messages.push('Passwords must match')
     }
 
     if (messages.length > 0) {

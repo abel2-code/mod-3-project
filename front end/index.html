@@ -9,13 +9,33 @@
   <!-- <script src='jquery-3.2.1.min.js'></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+  <script src="http://malsup.github.com/jquery.form.js"></script> 
+
+  <script> 
+      // wait for the DOM to be loaded 
+      $(document).ready(function() { 
+          // bind 'myForm' and provide a simple callback function 
+          $('#myForm').ajaxForm(function() { 
+              alert("Thank you for signing up!"); 
+          }); 
+      }); 
+  </script> 
 </head>
 <body>
   <div id='error'></div>
-  <form id='form' action='/' method='GET'>
+  <form id='form' action='file:///C:/Users/18326/Desktop/mod-3-project/module-3-backend/front%20end/index.html' method='POST'>
     <div>
       <label for='name'>Name</label>
       <input id="name" name="name" type="text" required>
+    </div>
+    <div>
+      <label for='username'>Username</label>
+      <input id="username" name="username" type="text" required>
+    </div>
+    <div>
+      <label for='email'>Email</label>
+      <input id="email" name="email" type="email" required>
     </div>
     <div>
       <label for='password'>Create Password</label>
