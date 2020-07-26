@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script defer src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+  <!-- <script src='jquery-3.2.1.min.js'></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
+</head>
+<body>
+  <div id='error'></div>
+  <form id='form' action='/' method='GET'>
+    <div>
+      <label for='name'>Name</label>
+      <input id="name" name="name" type="text" required>
+    </div>
+    <div>
+      <label for='password'>Create Password</label>
+      <input id="password" name="password" type="password" required>
+      <br>
+      <meter max="4" id="password-strength-meter"></meter>
+      <p id="password-strength-text"></p>
+    </div>
+    <div>
+      <label for='name'>Confirm Password</label>
+      <input id="confirm-password" name="confirm-password" type="password" onChange="checkPasswordMatch();" required>
+    </div>
+    <div class="registrationFormAlert" id="divCheckPasswordMatch">
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
