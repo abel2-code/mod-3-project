@@ -1,6 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+    ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: right;
+  border-left: 1px solid #bbb;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
@@ -24,35 +54,16 @@
   </script> 
 </head>
 <body>
-  <div id='signup-form'>
+  <nav id='fixed-nav-bar' class="fixed-nav-bar">
+    <ul>
+      <li><a id='signup'>Sign Up</a></li>
+      <li><a id='signin'>Sign In</a></li>
+      <li><a id='about'>About</a></li>
+    </ul>
+  </nav>
   <div id='error'></div>
   <form id='form' action='file:///C:/Users/18326/Desktop/mod-3-project/module-3-backend/front%20end/index.html' method='POST'>
-    <div>
-      <label for='name'>Name</label>
-      <input id="name" name="name" type="text" required>
-    </div>
-    <div>
-      <label for='username'>Username</label>
-      <input id="username" name="username" type="text" required>
-    </div>
-    <div>
-      <label for='email'>Email</label>
-      <input id="email" name="email" type="email" required>
-    </div>
-    <div>
-      <label for='password'>Create Password</label>
-      <input id="password" name="password" type="password" required>
-      <br>
-      <meter max="4" id="password-strength-meter"></meter>
-      <p id="password-strength-text"></p>
-    </div>
-    <div>
-      <label for='name'>Confirm Password</label>
-      <input id="confirm-password" name="confirm-password" type="password" onChange="checkPasswordMatch();" required>
-    </div>
-    <div class="registrationFormAlert" id="divCheckPasswordMatch">
-    </div>
-    <button type="submit">Submit</button>
+    
   </form>
   </div>
 
