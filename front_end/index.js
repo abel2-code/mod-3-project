@@ -79,11 +79,19 @@ function productCard(product) {
     let ul = div.querySelector("ul")
     let li = document.createElement("li")
     li.innerHTML = `
+        <div>
         <h3>${product.name}</h3>
-        <img src=${product.image}>$${product.price}
+        </div>
+        <div>
+        <img src=${product.image}>
+        </div>
+        <div>
+        <p>$${product.price}</p>
+        </div>
     `
     ul.appendChild(li)
 }
+
 
 
 
