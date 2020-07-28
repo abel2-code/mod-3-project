@@ -32,21 +32,26 @@ li.nav-bar a:hover:not(.active) {
 }
 
 #ad-container {
-  background-color: rgb(239, 239, 248);
+  background-color: rgb(2, 2, 16);
 }
 .ad-card {
-  color: green;
+  background-color: green;
 
 }
-
 
 .ad {
+  color:green;
   font-size: 30px;
+  display: grid;
+ 
 }
 
-li {
+.product {
   font-size: 10px;
   list-style-type: none;
+  float: left;
+  padding-left: 15px;
+  
 }
 
 li a {
@@ -66,7 +71,7 @@ li a:hover:not(.active) {
 }
 
 img {
-    float: left;
+    flex: 1;
     width:  100px;
     height: 100px;
     object-fit: cover;
@@ -79,6 +84,7 @@ img {
   color: white;
   text-align: right;
 }
+
   </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

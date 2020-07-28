@@ -78,15 +78,14 @@ function productCard(product) {
     let div = document.getElementById(`${product.company_id}`)
     let ul = div.querySelector("ul")
     let li = document.createElement("li")
+    li.className = "product"
     li.innerHTML = `
-        <div class="product">
+
         <h3>${product.name}</h3>
-            <div>
-                <img src=${product.image}>
-                <div>
-                    <p>$${product.price}</p>
-                </div>
-            </div>
+        <img src=${product.image}>
+        <div><br>
+        <p>$${product.price}</p>
+
         </div>
     `
     ul.appendChild(li)
