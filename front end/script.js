@@ -1,51 +1,95 @@
+let navBar = document.getElementById('fixed-nav-bar')
+navBar.innerHTML = `<ul>
+<li><a id='signup'>Sign Up</a></li>
+<li><a id='signin'>Sign In</a></li>
+<li><a id='about'>About</a></li>
+</ul>`
+
+
 const form = document.getElementById('form')
 // form.style.display="none"
 
 const signin = document.getElementById('signin')
 signin.addEventListener('click', e => {
+    form.innerHTML = ''
     form.innerHTML = `
-    <div>
-      <label for='username'>Username</label>
-      <input id="existing-username" name="username" type="text">
+    <div class="form-group row">
+        <label for='username' class="col-sm-2 col-form-label">Username</label>
+        <div class="col-sm-10">
+            <input id="existing-username" name="username" type="text">
+        </div>
     </div>
-    <div>
-      <label for='password'>Create Password</label>
-      <input id="existing-password" name="password" type="password">
+    <div class="form-group row">
+        <label for='password' class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input id="existing-password" name="password" type="password">
+        </div>
     </div>
-    <button type="submit">Submit</button>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button id='submit-to-sign-in' type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
     `
 })
+
+
 
 const signup = document.getElementById('signup')
 signup.addEventListener('click', e => {
     // form.style.display="block";
+    form.innerHTML = ''
     form.innerHTML = `
-    <div>
-      <label for='name'>Name</label>
-      <input id="name" name="name" type="text" required>
+    <div class="form-group row">    
+        <label for='name' class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <input id="name" name="name" type="text" required>
+        </div>
     </div>
-    <div>
-      <label for='username'>Username</label>
-      <input id="username" name="username" type="text" required>
+    <div class="form-group row">
+        <label for='username' class="col-sm-2 col-form-label">Username</label>
+        <div class="col-sm-10">
+            <input id="username" name="username" type="text" required>
+        </div>
+    </div>    
+    <div class="form-group row">
+        <label for='email' class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input id="inputEmail3" name="email" type="email" required>
+        </div>
     </div>
-    <div>
-      <label for='email'>Email</label>
-      <input id="email" name="email" type="email" required>
+    <div class="form-group row">
+        <label for='password' class="col-sm-2 col-form-label">Create Password</label>
+        <div class="col-sm-10">
+            <input id="password" name="password" type="password" required>
+    
+            <meter max="4" id="password-strength-meter"></meter>
+            <p id="password-strength-text"></p>
+        </div>
     </div>
-    <div>
-      <label for='password'>Create Password</label>
-      <input id="password" name="password" type="password" required>
-      <br>
-      <meter max="4" id="password-strength-meter"></meter>
-      <p id="password-strength-text"></p>
+    <div class="form-group row">
+        <label for='name' class="col-sm-2 col-form-label">Confirm Password</label>
+        <div class="col-sm-10">
+            <input id="confirm-password" name="confirm-password" type="password" onChange="checkPasswordMatch();" required>
+        </div>
     </div>
-    <div>
-      <label for='name'>Confirm Password</label>
-      <input id="confirm-password" name="confirm-password" type="password" onChange="checkPasswordMatch();" required>
+    <div class="form-group row">
+        <div class="col-sm-2 col-form-label" id="divCheckPasswordMatch"></div>
     </div>
-    <div class="registrationFormAlert" id="divCheckPasswordMatch">
+    <div class="form-group row">
+        <label for="customer-or-company" class="col-sm-2 col-form-label">I am a . . . </label>
+        <div class="col-sm-10">
+            <select id="customer-or-company" class="form-control" name="customer-or-country">
+                <option value="customer">Customer</option>
+                <option value="company">Company</option>
+            </select>
+        </div>
     </div>
-    <button type="submit">Submit</button>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button id='submit-to-log-in' type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
     `
 
     const password = document.getElementById('password')
@@ -75,29 +119,6 @@ signup.addEventListener('click', e => {
     }
     });
 
-    const name = document.getElementById('name')
-    const confirmPassword = document.getElementById('confirm-password')
-    const errorElement = document.getElementById('error')
-    form.addEventListener('submit', e => {
-        let messages = []
-        if (name.value === '' || name.value == null) {
-            messages.push('Name is required')
-        }
-
-        if (password.value.length <= 6) {
-            messages.push('Password must be longer than 6 characters')
-        }
-
-        if (password.value !== confirmPassword.value) {
-            messages.push('Passwords must match')
-        }
-
-        if (messages.length > 0) {
-            e.preventDefault()
-            errorElement.innerText = messages.join(', ')
-        }
-    })
-
     function checkPasswordMatch() {
         let password = $("#password").val();
         let confirmPassword = $("#confirm-password").val()
@@ -113,8 +134,68 @@ signup.addEventListener('click', e => {
     $(document).ready(function () {
         $("#password, #confirm-password").keyup(checkPasswordMatch);
     })
-    
+
+    const name = document.getElementById('name')
+    const confirmPassword = document.getElementById('confirm-password')
+    const errorElement = document.getElementById('error')
+    form.addEventListener('submit', e => {
+        e.preventDefault()
+        let messages = []
+        if (name.value === '' || name.value == null) {
+            messages.push('Name is required')
+        }
+
+        if (password.value.length <= 6) {
+            messages.push('Password must be longer than 6 characters')
+        }
+
+        if (password.value !== confirmPassword.value) {
+            messages.push('Passwords must match')
+        }
+
+        if (messages.length > 0 && existingPassword == null) {
+            e.preventDefault()
+            errorElement.innerText = messages.join(', ')
+        } 
+    })
 
 })
 
-$("#theForm").ajaxForm({url: 'file:///C:/Users/18326/Desktop/mod-3-project/module-3-backend/front%20end/index.html', type: 'post'})
+let username
+let existingPassword
+
+document.getElementById("form").onsubmit=function(e) {
+    e.preventDefault()
+
+    const existingUsername = document.getElementById('existing-username')
+    const newUsername = document.getElementById('username')
+
+    if (existingUsername != null) {
+        username = existingUsername.value
+        existingPassword = document.getElementById('existing-password').value
+    }
+    if (newUsername != null) {
+        username = newUsername.value
+    }
+
+    form.innerHTML = `Welcome ${username}`
+
+    navBar.innerHTML = `<ul>
+        <li><a id='logout'>Log Out</a></li>
+        <li><a id='home'>Home</a></li>
+        </ul>
+    `
+    const logout = document.getElementById('logout')
+    logout.addEventListener('click', e => {
+    navBar.innerHTML = `<ul>
+        <li><a id='signup'>Sign Up</a></li>
+        <li><a id='signin'>Sign In</a></li>
+        <li><a id='about'>About</a></li>
+        </ul>
+    `
+    })
+}
+
+
+// $("#theForm").ajaxForm({url: 'file:///C:/Users/18326/Desktop/mod-3-project/module-3-backend/front%20end/index.html', type: 'post'})
+
