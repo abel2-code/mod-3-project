@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <style>
-    #nav-bar {
+ul.nav-bar {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -10,9 +10,25 @@
   background-color: #333;
 }
 
-.nav-bar {
+li.nav-bar {
   float: right;
-  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+
+li.nav-bar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li.nav-bar a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
 }
 
 #ad-container {
@@ -23,12 +39,14 @@
 
 }
 
+
 .ad {
   font-size: 30px;
 }
 
 li {
   font-size: 10px;
+  list-style-type: none;
 }
 
 li a {
@@ -45,6 +63,13 @@ li a:hover:not(.active) {
 
 .active {
   background-color: #4CAF50;
+}
+
+img {
+    float: left;
+    width:  100px;
+    height: 100px;
+    object-fit: cover;
 }
   </style>
   <meta charset="UTF-8">
@@ -71,21 +96,20 @@ li a:hover:not(.active) {
 </head>
 <body>
   <nav id='fixed-nav-bar' class="fixed-nav-bar">
-    <ul id="nav-bar">
-      <li class="nav-bar"><a id='signup'>Sign Up</a></li>
-      <li class="nav-bar"><a id='signin'>Sign In</a></li>
-      <li class="nav-bar"><a id='about'>About</a></li>
-    </ul>
+    
   </nav>
   <div id='error'></div>
-  <form id='form' action='file:///C:/Users/18326/Desktop/mod-3-project/module-3-backend/front%20end/index.html' method='POST'>
-    
-  </form>
-  </div>
+  <form id='form'>
 
+  </form>
   <div id="ad-container">
     
 
   </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
