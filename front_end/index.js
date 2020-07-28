@@ -48,8 +48,15 @@ function productCard(product) {
     // console.log(product)
     let li = document.getElementById(`${product.company_id}`)
     li.innerHTML = `
+        <div>
         <h3>${product.name}</h3>
-        <img src=${product.image}>$${product.price}
+        </div>
+        <div>
+        <img src=${product.image}>
+        </div>
+        <div>
+        <p>$${product.price}</p>
+        </div>
     `
 }
 
@@ -68,4 +75,3 @@ function getCompanies() {
 //         `
 //     })
 // }
-
