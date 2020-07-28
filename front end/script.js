@@ -2,8 +2,6 @@ let signedIn = false
 
 showNavBar()
 
-
-
 function showNavBar() {
     console.log("i'm working here")
     let navBar = document.getElementById('fixed-nav-bar')
@@ -198,9 +196,7 @@ function addSignupListener() {
                 messages.push('Passwords must match')
             }
 
-            if (messages.length > 0 
-                // && existingPassword == null
-                ) {
+            if (messages.length > 0 && existingPassword == null) {
                 e.preventDefault()
                 errorElement.innerText = messages.join(', ')
             } 
