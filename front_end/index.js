@@ -91,8 +91,3 @@ function productCard(product) {
     `
     ul.appendChild(li)
 }
-
-
-
-
-
