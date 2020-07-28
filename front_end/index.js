@@ -48,14 +48,14 @@ function productCard(product) {
     // console.log(product)
     let li = document.getElementById(`${product.company_id}`)
     li.innerHTML = `
-        <div>
+        <div class="product">
         <h3>${product.name}</h3>
-        </div>
-        <div>
-        <img src=${product.image}>
-        </div>
-        <div>
-        <p>$${product.price}</p>
+            <div>
+                <img src=${product.image}>
+                <div>
+                    <p>$${product.price}</p>
+                </div>
+            </div>
         </div>
     `
 }
