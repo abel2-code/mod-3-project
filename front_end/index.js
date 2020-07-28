@@ -80,10 +80,12 @@ function productCard(product) {
     let li = document.createElement("li")
     li.className = "product"
     li.innerHTML = `
+
         <h3>${product.name}</h3>
         <img src=${product.image}>
         <div><br>
         <p>$${product.price}</p>
+
         </div>
     `
     ul.appendChild(li)
