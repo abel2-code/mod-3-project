@@ -97,17 +97,19 @@ li.nav-bar a:hover:not(.active) {
   margin: 12px 0;
 }
 
-/* #ad-container {
-  background-color: rgb(0, 0, 0);
-} */
+#ad-container {
+  /* background-color: rgb(0, 0, 0); */
+  padding-top: 50px;
+}
 .ad-card {
   background-color: green;
 
 }
 
 .ad {
-  color:green;
+  color:rgb(241, 241, 241);
   font-size: 30px;
+  text-align: center;
   display: grid;
 
 }
@@ -115,10 +117,15 @@ li.nav-bar a:hover:not(.active) {
 .product {
   font-size: 10px;
   list-style-type: none;
-  float: left;
+  /* float: left; */
+  display:inline-block;
   padding-left: 15px;
   
 }
+
+/* .product-card {
+  background-color: rgba(36, 36, 36, 0.8);
+} */
 
 li a {
   display: block;
@@ -138,7 +145,7 @@ li a:hover:not(.active) {
 
 img {
     flex: 1;
-    width:  100px;
+    width: 100px;
     height: 100px;
     object-fit: cover;
 }

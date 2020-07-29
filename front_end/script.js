@@ -10,7 +10,7 @@ function showNavBar() {
             navBar.innerHTML = `<ul class="nav-bar">
                 <li class="nav-bar"><a id='logout'>Log Out</a></li>
                 <li class="nav-bar"><a id='home'>Home</a></li>
-                <li style="float:left">Business Ads: the products you want, at the price we want</li>
+                <li style="float:left"><a id='business-ads'>Business Ads: the products you want, at the prices we want</a></li>
                 </ul>
             `
             addSignedInListeners()
@@ -19,7 +19,7 @@ function showNavBar() {
                 <li class="nav-bar"><a id='signup'>Sign Up</a></li>
                 <li class="nav-bar"><a id='signin'>Sign In</a></li>
                 <li class="nav-bar"><a id='about'>About</a></li>
-                <li class="nav-bar" style="float:left"><a>Business Ads: the products you want, at the price we want</a></li>
+                <li class="nav-bar" style="float:left"><a id='business-ads'>Business Ads: the products you want, at the prices we want</a></li>
                 </ul>
             `
             addSignedOutListeners()
@@ -36,6 +36,7 @@ let form = document.getElementById('form')
 function addLogoutListener() {
     console.log('doin great, baws')
 
+    addBusinessAdsListener()
     const logout = document.getElementById('logout')
     logout.addEventListener('click', e => {
         signedIn = false;
@@ -50,15 +51,35 @@ function addSignedOutListeners() {
     console.log('still working')
     addSigninListener()
     addSignupListener()
+    addBusinessAdsListener()
+}
 
+function addBusinessAdsListener() {
+  const signin = document.getElementById('signin')
+  const signup = document.getElementById('signup')
+  const ad = document.getElementById('ad-container')
+  const businessAds = document.getElementById('business-ads')
+  businessAds.addEventListener('click', e => {
+    businessAds.className = "active"
+    getCompanies()
+    getAds()
+    getProducts()
+    if (!signedIn) {
+      signup.className = ""
+      signin.className = ""
+      form.innerHTML = ""
+    }
+  })
 }
 let username
 function addSigninListener() {
-    const signin = document.getElementById('signin')
-    const signup = document.getElementById('signup')
-    const ad = document.getElementById('ad-container')
+  const signin = document.getElementById('signin')
+  const signup = document.getElementById('signup')
+  const ad = document.getElementById('ad-container')
+  const businessAds = document.getElementById('business-ads')
     signin.addEventListener('click', e => {
       ad.innerHTML = ""
+      businessAds.className = ""
       signup.className = ""
       signin.className = "active"
         form.innerHTML = ''
@@ -89,12 +110,14 @@ function addSigninListener() {
 }
 
 function addSignupListener() {
-    const signup = document.getElementById('signup')
-    const signin = document.getElementById('signin')
-    const ad = document.getElementById('ad-container')
+  const signin = document.getElementById('signin')
+  const signup = document.getElementById('signup')
+  const ad = document.getElementById('ad-container')
+  const businessAds = document.getElementById('business-ads')
     signup.addEventListener('click', e => {
         // form.style.display="block";
         ad.innerHTML = ""
+        businessAds.className = ""
         signin.className = ""
         signup.className = "active"
         form.innerHTML = ''
