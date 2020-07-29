@@ -4,84 +4,78 @@ const postUrl = `${baseUrl}/posts`
 const companyUrl = `${baseUrl}/companies`
 const customerUrl = `${baseUrl}/customers`
 const productsUrl = `${baseUrl}/products`
-let products
-
+let ads = [];
+let companies = []
 document.addEventListener("DOMContentLoaded", () => {
-    // getCompanies()
-    // getAds()
-    // getProducts()
-    
-    
     
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
     const companyPromise = fetch(companyUrl).then(res => res.json())
     Promise.all([adPromise, productPromise, companyPromise]).then((res) => {
-        const [ads, products, companies] = res;
-        // ads.forEach(ad =>adCard(ad))
-        companies.forEach(company => companyCard(company))
-        products.forEach(product => productCard(product))
+        // const [ads, products, companies] = res;
+        ads = res[0].map((ad) => {
+            ad.company = "" 
+            return ad
+            
+        })
+        companies = res[2].map((company) => {
+            company.products = []
+            return company
+        })
+        
+        companies.forEach((co) => {
+            const ad = ads.find(ad => ad.company_id === co.id)
+            ad.company = co
+
+            return co
+        });
+        
+        res[1].forEach((product) => {
+            const company = companies.find(company => product.company_id === company.id)
+            company.products.push(product)
+        })
+        getAd(ads)
         
     })
 })
-function getCompanies() {
-    fetch(companyUrl)
-    .then(res => res.json())
-    .then(json => json.forEach(company => companyCard(company)))
-}
 
-function getProducts() {
-    fetch(productsUrl)
-    .then(res => res.json())
-    .then(json => {
-        products = json;
-        json.forEach(p => productCard(p))
+
+function getAd(adlist) {
+    adlist.forEach(ad => {
+        adCard(ad)
     })
 }
 
-function companyCard(company) {
-    let div = document.getElementById("ad-container")
-    let div2 = document.createElement("div")
-    div2.classList.add("ad")
-    div2.id = company.id
-    div2.innerText = company.name
-    div.appendChild(div2)
+function adCard(ad) {
+    let container = document.getElementById("ad-container")
+    let div1 = document.createElement("div")
+    div1.classList.add("ad-card")
+    div1.id = `company-container-${ad.company_id}`
+    div1.innerText = ad.company.name
+
     let ul = document.createElement("ul")
-    div2.appendChild(ul)
+    container.appendChild(div1)
+    div1.appendChild(ul)
+
+    ad.company.products.forEach(product => {
+        productCard(product)
+    })
+    
     
 }
 
-function getAds() {
-    fetch(adUrl)
-    .then(res => res.json())
-    .then(json => json.forEach(ad => adCard(ad)))
-}
-
-// function adCard(ad) {
-//     // console.log(ad)
-//     let container = document.getElementById("ad-container")
-//     let li = document.createElement("li")
-//     li.classList.add("ad-card")
-//     li.id = `company-container-${ad.company_id}`
-//     container.appendChild(li)
-// }
-
-
-
-
-
 function productCard(product) {
-    // console.log(product)
-    let div = document.getElementById(`${product.company_id}`)
+    
+    let div = document.getElementById(`company-container-${product.company_id}`)
     let ul = div.querySelector("ul")
     let li = document.createElement("li")
     li.className = "product"
     li.innerHTML = `
         <div class="product-card">
-        <h3>${product.name}</h3>
-        <img src=${product.image}>
+        <h3 class="product-name">${product.name}</h3>
+        <img src=${product.image} class="product-img">
         <br>
-        <h3>$${product.price}</h3>
+        <h3 class="price">$${product.price}</h3>
 
         </div>
     `

@@ -110,25 +110,43 @@ li.nav-bar a:hover:not(.active) {
   padding-top: 50px;
 }
 .ad-card {
-  background-color: green;
+  font-size: 30px;
+  text-align: center;
+  color: gray;
+  background-color: rgba(7, 112, 7, 0.212);
+  border-style: groove;
+  display: grid;
+}
+.product-card {
+  /* border-spacing: 20px; */
+  background-color: rgba(231, 241, 231, 0.288);
 
 }
 
-.ad {
+/* .ad {
   color:rgb(241, 241, 241);
   font-size: 30px;
   text-align: center;
   display: grid;
 
-}
+} */
 
 .product {
-  font-size: 10px;
+  color: rgba(0, 128, 0);
+  border-style: double;
   list-style-type: none;
   /* float: left; */
   display:inline-block;
-  padding-left: 15px;
+  /* padding-left: 15px; */
   
+}
+.product-name {
+  color: #000000;
+  font-size: 15px;
+}
+.price {
+  color: #000000;
+  font-size: 20px;
 }
 
 .product-card:hover {
@@ -200,11 +218,14 @@ li a:hover:not(.active) {
   background-color: #4CAF50;
 }
 
-img {
+.product-img {
     flex: 1;
+    display: block;
     width: 100px;
     height: 100px;
     object-fit: cover;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #footer {
