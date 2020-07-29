@@ -42,7 +42,8 @@ function addLogoutListener() {
     logout.addEventListener('click', e => {
         signedIn = false;
         showNavBar()
-        form.innerHTML = `You've logged out`
+        document.getElementById('welcome').innerHTML = ''
+        document.getElementById('ad-container').innerHTML = ''
     })
 }
 
@@ -63,6 +64,8 @@ function addBusinessAdsListener() {
   const businessAds = document.getElementById('business-ads')
   businessAds.addEventListener('click', e => {
     ad.innerHTML = ''
+    document.getElementById('welcome').innerHTML = ''
+
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
     const companyPromise = fetch(companyUrl).then(res => res.json())
@@ -256,7 +259,7 @@ function addSignupListener() {
                 Accept: "application/json"
               },
               body: JSON.stringify(user)
-            }).then(res => res.json()).then(json => console.log(json))
+            }).then(res => res.json()).then(json => greetNewCustomer(json))
           } else {
             fetch(companyUrl, {
               method: "POST",
@@ -265,18 +268,39 @@ function addSignupListener() {
                 Accept: "application/json"
               },
               body: JSON.stringify(user)
-            })
+            }).then(res => res.json()).then(json => greetNewCompany(json))
           }
-          submitForm(newUsername.value)
+          submitForm()
         }
 
     })
 }
 let existingPassword
-function submitForm(username) {
-  console.log(username)
-  form.innerHTML = `Welcome ${username}`
+function submitForm() {
+  form.innerHTML = ''
 
   signedIn = true
   showNavBar(signedIn)
+}
+
+function greetNewCustomer(customer) {
+  const welcome = document.getElementById('welcome')
+  welcome.innerHTML = `
+    <div class="animated-text">
+      <div class="line">Welcome, ${customer.username}</div>
+      <div class="line">Looking for products?</div>
+      <div class="line">Let's get started!</div>
+    </div>
+  `
+}
+
+function greetNewCompany(company) {
+  const welcome = document.getElementById('welcome')
+  welcome.innerHTML = `
+    <div class="animated-text">
+      <div class="line">Welcome, ${company.name}</div>
+      <div class="line">Looking to advertise?</div>
+      <div class="line">Let's get started!</div>
+    </div>
+  `
 }
