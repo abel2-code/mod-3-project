@@ -80,11 +80,11 @@ function productCard(product) {
     let li = document.createElement("li")
     li.className = "product"
     li.innerHTML = `
-
+        <div>
         <h3>${product.name}</h3>
         <img src=${product.image}>
-        <div><br>
-        <p>$${product.price}</p>
+        <br>
+        <h3>$${product.price}</h3>
 
         </div>
     `

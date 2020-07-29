@@ -2,125 +2,29 @@
 <html lang="en">
 <head>
   <style>
-ul.nav-bar {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
 
-li.nav-bar {
-  float: right;
-  border-right: 1px solid #bbb;
-}
-
-li.nav-bar a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li.nav-bar a:hover:not(.active) {
-  background-color: #111;
-}
-
-.active {
-  background-color: #4CAF50;
-}
-
-#ad-container {
-  background-color: rgb(2, 2, 16);
-}
-.ad-card {
-  background-color: green;
-
-}
-
-.ad {
-  color:green;
-  font-size: 30px;
-  display: grid;
- 
-}
-
-.product {
-  font-size: 10px;
-  list-style-type: none;
-  float: left;
-  padding-left: 15px;
-  
-}
-
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover:not(.active) {
-  background-color: #111;
-}
-
-.active {
-  background-color: #4CAF50;
-}
-
-img {
-    flex: 1;
-    width:  100px;
-    height: 100px;
-    object-fit: cover;
-}
-
-#footer {
-  clear: both;
-  padding: 10px;
-  background-color: #999;
-  color: white;
-  text-align: right;
-}
-
-  </style>
+    </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Business Ads</title>
   <script defer src="script.js"></script>
   <script defer src="index.js"></script>
+  <link rel="stylesheet" href="style.css" media="screen" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
   <!-- <script src='jquery-3.2.1.min.js'></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
   <script src="http://malsup.github.com/jquery.form.js"></script>
-
-  <script> 
-      // wait for the DOM to be loaded 
-      $(document).ready(function() { 
-          // bind 'myForm' and provide a simple callback function 
-          $('#myForm').ajaxForm(function() { 
-              alert("Thank you for signing up!"); 
-          }); 
-      }); 
-  </script> 
 </head>
 <body>
   <nav id='fixed-nav-bar' class="fixed-nav-bar">
-    
   </nav>
   <div id='error'></div>
   <form id='form'>
-
   </form>
   <div id="ad-container">
-    
-
   </div>
-
   <div id="footer">
     Copyright &copy; Business Ads 2020
   </div>
