@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const companyPromise = fetch(companyUrl).then(res => res.json())
     Promise.all([adPromise, productPromise, companyPromise]).then((res) => {
         const [ads, products, companies] = res;
-        ads.forEach(ad =>adCard(ad))
+        // ads.forEach(ad =>adCard(ad))
         companies.forEach(company => companyCard(company))
         products.forEach(product => productCard(product))
         
@@ -57,14 +57,14 @@ function getAds() {
     .then(json => json.forEach(ad => adCard(ad)))
 }
 
-function adCard(ad) {
-    // console.log(ad)
-    let container = document.getElementById("ad-container")
-    let li = document.createElement("li")
-    li.classList.add("ad-card")
-    li.id = `company-container-${ad.company_id}`
-    container.appendChild(li)
-}
+// function adCard(ad) {
+//     // console.log(ad)
+//     let container = document.getElementById("ad-container")
+//     let li = document.createElement("li")
+//     li.classList.add("ad-card")
+//     li.id = `company-container-${ad.company_id}`
+//     container.appendChild(li)
+// }
 
 
 
