@@ -1,6 +1,6 @@
 let signedIn = false
 document.addEventListener("DOMContentLoaded", () => {
-  showNavBar(signedIn)
+  showNavBar()
 })
 
 function showNavBar() {
@@ -28,6 +28,7 @@ function showNavBar() {
 
 function addSignedInListeners() {
     console.log('we did thing, baws')
+    document.getElementById('home').className = "active"
     addLogoutListener()
 }
 
@@ -58,16 +59,27 @@ function addBusinessAdsListener() {
   const signin = document.getElementById('signin')
   const signup = document.getElementById('signup')
   const ad = document.getElementById('ad-container')
+  const home = document.getElementById('home')
   const businessAds = document.getElementById('business-ads')
   businessAds.addEventListener('click', e => {
-    businessAds.className = "active"
-    getCompanies()
-    getAds()
-    getProducts()
+    ad.innerHTML = ''
+    const adPromise = fetch(adUrl).then(res => res.json())
+    const productPromise = fetch(productsUrl).then(res => res.json())
+    const companyPromise = fetch(companyUrl).then(res => res.json())
+    Promise.all([adPromise, productPromise, companyPromise]).then((res) => {
+        const [ads, products, companies] = res;
+        // ads.forEach(ad =>adCard(ad))
+        companies.forEach(company => companyCard(company))
+        products.forEach(product => productCard(product))
+        
+    })
     if (!signedIn) {
       signup.className = ""
       signin.className = ""
       form.innerHTML = ""
+    }
+    else {
+      home.className = ""
     }
   })
 }
@@ -134,7 +146,7 @@ function addSignupListener() {
             </div>   
             <div class="textbox">
               <i class="fa fa-envelope" aria-hidden="true"></i>
-              <input id="inputEmail3" type="email" placeholder="E-mail" required>
+              <input id="email" type="email" placeholder="E-mail" required>
             </div>
             <div class="textbox">
               <i id="lock1" class="fa fa-unlock-alt" aria-hidden="true"></i>
@@ -148,7 +160,7 @@ function addSignupListener() {
             </div>
             <div class="password-feedback" id="divCheckPasswordMatch"></div>
             <div class="textbox">
-              <select id="customer-or-company" class="form-control" name="customer-or-country" placeholder="I am a ...">
+              <select id="customer-or-company" class="form-control" name="customer-or-company" placeholder="I am a ...">
                 <option value="customer">Customer</option>
                 <option value="company">Company</option>
               </select>
@@ -206,6 +218,8 @@ function addSignupListener() {
 
         const name = document.getElementById('name')
         const newUsername = document.getElementById('username')
+        const email = document.getElementById('email')
+        const customerOrCompany = document.getElementById('customer-or-company')
         const confirmPassword = document.getElementById('confirm-password')
         const errorElement = document.getElementById('error')
         form.onsubmit=e => {
@@ -227,9 +241,33 @@ function addSignupListener() {
               e.preventDefault()
               errorElement.innerText = messages.join(', ')
           } 
-          console.log(newUsername.value)
-          username = newUsername.value
-          submitForm(username)
+          const user = {
+            name: name.value,
+            username: newUsername.value,
+            email: email.value,
+            password: password.value,
+            address: "123 fake street"
+          }
+          if (customerOrCompany.value == "customer") {
+            fetch(customerUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+              },
+              body: JSON.stringify(user)
+            }).then(res => res.json()).then(json => console.log(json))
+          } else {
+            fetch(companyUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+              },
+              body: JSON.stringify(user)
+            })
+          }
+          submitForm(newUsername.value)
         }
 
     })
