@@ -103,6 +103,9 @@ li.nav-bar a:hover:not(.active) {
 }
 .ad-card {
   background-color: green;
+}
+.product-card {
+  background-color: rgb(231, 241, 231);
 
 }
 
