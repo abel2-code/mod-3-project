@@ -72,10 +72,10 @@ function productCard(product) {
     li.className = "product"
     li.innerHTML = `
         <div class="product-card">
-        <h3>${product.name}</h3>
-        <img src=${product.image}>
+        <h3 class="product-name">${product.name}</h3>
+        <img src=${product.image} class="product-img">
         <br>
-        <h3>$${product.price}</h3>
+        <h3 class="price">$${product.price}</h3>
 
         </div>
     `
