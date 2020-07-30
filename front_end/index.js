@@ -56,11 +56,12 @@ function adCard(ad) {
     let ul = document.createElement("ul")
     container.appendChild(div1)
     div1.appendChild(ul)
-
-    ad.company.products.forEach(product => {
-        productCard(product)
-    })
-
+    // let productsArr = ad.company.products
+    // var rand = productsArr[(Math.random() * productsArr.length) | 0]
+    // // rand.forEach(product => {
+    // //     productCard(product)
+    // // })
+    // productCard(rand)
     document.getElementById(`company-container-${ad.company_id}`).onclick=e => {
         clearAllDivs()
         showCompanyProfile(ad.company)

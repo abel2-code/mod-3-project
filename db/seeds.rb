@@ -52,6 +52,6 @@ end
     }])
 end
 
-Ad.create([{
-    company: Company.last
-}])
+# Ad.create([{
+#     company: Company.last
+# }])
