@@ -60,6 +60,11 @@ function adCard(ad) {
     ad.company.products.forEach(product => {
         productCard(product)
     })
+
+    document.getElementById(`company-container-${ad.company_id}`).onclick=e => {
+        clearAllDivs()
+        showCompanyProfile(ad.company)
+    }
     
     
 }
@@ -80,4 +85,6 @@ function productCard(product) {
         </div>
     `
     ul.appendChild(li)
+
+
 }

@@ -10,7 +10,7 @@ function showNavBar() {
             navBar.innerHTML = `<ul class="nav-bar">
                 <li class="nav-bar"><a id='logout'>Log Out</a></li>
                 <li class="nav-bar"><a id='home'>Home</a></li>
-                <li style="float:left"><a id='business-ads'>Business Ads: the products you want, at the prices we want</a></li>
+                <li class="nav-bar" style="float:left"><a id='business-ads'>Business Ads: the products you want, at the prices we want</a></li>
                 </ul>
             `
             addSignedInListeners()
@@ -28,6 +28,7 @@ function showNavBar() {
 
 function addSignedInListeners() {
     console.log('we did thing, baws')
+    changeNavBarActive()
     document.getElementById('home').className = "active"
     addLogoutListener()
 }
@@ -42,8 +43,7 @@ function addLogoutListener() {
     logout.addEventListener('click', e => {
         signedIn = false;
         showNavBar()
-        document.getElementById('welcome').innerHTML = ''
-        document.getElementById('ad-container').innerHTML = ''
+        clearAllDivs()
     })
 }
 
@@ -57,47 +57,50 @@ function addSignedOutListeners() {
 }
 
 function addBusinessAdsListener() {
-  const signin = document.getElementById('signin')
-  const signup = document.getElementById('signup')
-  const ad = document.getElementById('ad-container')
-  const home = document.getElementById('home')
   const businessAds = document.getElementById('business-ads')
   businessAds.addEventListener('click', e => {
-    ad.innerHTML = ''
-    document.getElementById('welcome').innerHTML = ''
+    clearAllDivs()
+    changeNavBarActive()
 
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
     const companyPromise = fetch(companyUrl).then(res => res.json())
     Promise.all([adPromise, productPromise, companyPromise]).then((res) => {
-        const [ads, products, companies] = res;
-        // ads.forEach(ad =>adCard(ad))
-        companies.forEach(company => companyCard(company))
-        products.forEach(product => productCard(product))
+        // const [ads, products, companies] = res;
+        ads = res[0].map((ad) => {
+            ad.company = "" 
+            return ad
+            
+        })
+        companies = res[2].map((company) => {
+            company.products = []
+            return company
+        })
+        
+        companies.forEach((co) => {
+            const ad = ads.find(ad => ad.company_id === co.id)
+            ad.company = co
+
+            return co
+        });
+        
+        res[1].forEach((product) => {
+            const company = companies.find(company => product.company_id === company.id)
+            company.products.push(product)
+        })
+        getAd(ads)
         
     })
-    if (!signedIn) {
-      signup.className = ""
-      signin.className = ""
-      form.innerHTML = ""
-    }
-    else {
-      home.className = ""
-    }
+ 
   })
 }
 let username
 function addSigninListener() {
   const signin = document.getElementById('signin')
-  const signup = document.getElementById('signup')
-  const ad = document.getElementById('ad-container')
-  const businessAds = document.getElementById('business-ads')
     signin.addEventListener('click', e => {
-      ad.innerHTML = ""
-      businessAds.className = ""
-      signup.className = ""
+      clearAllDivs()
+      changeNavBarActive()
       signin.className = "active"
-        form.innerHTML = ''
         form.innerHTML = `
         <div class="login-box">
           <h1>Log In</h1>
@@ -125,17 +128,13 @@ function addSigninListener() {
 }
 
 function addSignupListener() {
-  const signin = document.getElementById('signin')
   const signup = document.getElementById('signup')
-  const ad = document.getElementById('ad-container')
-  const businessAds = document.getElementById('business-ads')
     signup.addEventListener('click', e => {
         // form.style.display="block";
-        ad.innerHTML = ""
-        businessAds.className = ""
-        signin.className = ""
+        clearAllDivs()
+        changeNavBarActive()
+
         signup.className = "active"
-        form.innerHTML = ''
         form.innerHTML = `
           <div class="login-box"> 
             <h1>Sign Up</h1>  
@@ -277,24 +276,29 @@ function addSignupListener() {
 }
 let existingPassword
 function submitForm() {
-  form.innerHTML = ''
+  clearAllDivs()
 
   signedIn = true
   showNavBar(signedIn)
 }
 
 function greetNewCustomer(customer) {
+  clearAllDivs()
   const welcome = document.getElementById('welcome')
   welcome.innerHTML = `
-    <div class="animated-text">
-      <div class="line">Welcome, ${customer.username}</div>
-      <div class="line">Looking for products?</div>
-      <div class="line">Let's get started!</div>
+  <div class="center">
+    <div class="text-animation">
+      Welcome, ${customer.username}. 
+      Looking for products? 
+      Let's get started!
     </div>
+  </div>
   `
+  fadeText()
 }
 
 function greetNewCompany(company) {
+  clearAllDivs()
   const welcome = document.getElementById('welcome')
   welcome.innerHTML = `
     <div class="animated-text">
@@ -303,4 +307,60 @@ function greetNewCompany(company) {
       <div class="line">Let's get started!</div>
     </div>
   `
+  fadeText()
+}
+
+function fadeText() {
+  const wrapper = document.getElementsByClassName("text-animation")[0];
+  wrapper.style.opacity="1";
+  wrapper.innerHTML = wrapper.textContent.replace(/./g,"<span>$&</span>");
+  const spans = wrapper.getElementsByTagName("span");
+
+  for(let i=0;i<spans.length;i++){
+    spans[i].style.animationDelay = i*80+"ms";
+  }
+}
+
+function clearAllDivs () {
+    document.getElementById('error').innerHTML = ''
+    document.getElementById('form').innerHTML = ''
+    document.getElementById('welcome').innerHTML = ''
+    document.getElementById('company-profile').innerHTML = ''
+    document.getElementById('ad-container').innerHTML = ''
+}
+
+function changeNavBarActive() {
+  if (signedIn) {
+    document.getElementById('logout').className = ''
+    document.getElementById('home').className = ''
+    document.getElementById('business-ads').className = ''
+  } else {
+    document.getElementById('signup').className = ''
+    document.getElementById('signin').className = ''
+    document.getElementById('about').className = ''
+    document.getElementById('business-ads').className = ''
+  }
+}
+
+function showCompanyProfile(company){
+  const companyProfile = document.getElementById('company-profile')
+  companyProfile.innerHTML = `
+  <div class="center">
+  <h1>${company.name}</h1>
+  <p>
+  <ul id="company-posts"></ul>
+  </div>
+  `
+
+  const companyPosts = document.getElementById('company-posts')
+  company.posts.forEach(post => {
+    console.log(post.company)
+    // const li = document.createElement('li')
+    // li.className = "customer-post"
+    // li.innerHTML = `
+    // ${post.content}
+    //         -${post.customer.username}
+    // `
+    // console.log(post.content)
+  })
 }

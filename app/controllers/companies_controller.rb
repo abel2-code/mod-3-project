@@ -2,7 +2,7 @@ class CompaniesController < ApplicationController
 
     def index
         companies = Company.all
-        render json: companies, include: :products
+        render json: companies, include: [:products, :posts]
     end
 
     def create
