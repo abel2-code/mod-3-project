@@ -27,6 +27,8 @@ end
     Company.create([{
         name: Faker::Company.unique.name,
         email: Faker::Internet.unique.email,
+        slogan: Faker::Company.catch_phrase,
+        logo: Faker::Company.logo,
         password: "password1",
     }])
 
