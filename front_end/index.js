@@ -7,13 +7,16 @@ const productsUrl = `${baseUrl}/products`
 const postsUrl = `${baseUrl}/posts`
 let ads = [];
 let companies = []
+let customerPosts = []
+let customers = []
 document.addEventListener("DOMContentLoaded", () => {
     
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
     const companyPromise = fetch(companyUrl).then(res => res.json())
     const postPromise = fetch(postsUrl).then(res => res.json())
-    Promise.all([adPromise, productPromise, companyPromise, postPromise]).then((res) => {
+    const customerPromise = fetch(customerUrl).then(res => res.json())
+    Promise.all([adPromise, productPromise, companyPromise, postPromise, customerPromise]).then((res) => {
         // const [ads, products, companies] = res;
         ads = res[0].map((ad) => {
             ad.company = "" 
@@ -38,9 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
             company.products.push(product)
         })
 
-        res[3].forEach((post) => {
-            const company = companies.find(company => post.company_id === company.id)
-            company.posts.push(post)
+        customerPosts = res[3].map((post) => {
+            post.customer = ""
+            return post
+        })
+
+        customers = res[4].map((customer) => {
+            return customer
+        })
+       
+
+        customerPosts.forEach((p) => {
+            const company = companies.find(company => p.company_id === company.id)
+            const customer = customers.find(customer => p.customer_id === customer.id)
+            p.customer = customer
+            company.posts.push(p)
+            
         })
         console.log(ads)
         getAd(ads)
@@ -97,4 +113,13 @@ function productCard(product) {
     ul.appendChild(li)
 
 
+}
+
+function adCardLogin(ad) {
+    let container = document.getElementById("ad-container")
+    let div1 = document.createElement("div")
+    div1.classList.add("ad-card")
+    div1.id = `company-container-${ad.company_id}`
+    div1.innerText = ad.company.name
+    container.appendChild(div1)
 }
