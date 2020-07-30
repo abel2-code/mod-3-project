@@ -4,6 +4,7 @@ const postUrl = `${baseUrl}/posts`
 const companyUrl = `${baseUrl}/companies`
 const customerUrl = `${baseUrl}/customers`
 const productsUrl = `${baseUrl}/products`
+const postsUrl = `${baseUrl}/posts`
 let ads = [];
 let companies = []
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
     const companyPromise = fetch(companyUrl).then(res => res.json())
-    Promise.all([adPromise, productPromise, companyPromise]).then((res) => {
+    const postPromise = fetch(postsUrl).then(res => res.json())
+    Promise.all([adPromise, productPromise, companyPromise, postPromise]).then((res) => {
         // const [ads, products, companies] = res;
         ads = res[0].map((ad) => {
             ad.company = "" 
@@ -20,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         companies = res[2].map((company) => {
             company.products = []
+            company.posts = []
             return company
         })
         
@@ -34,6 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const company = companies.find(company => product.company_id === company.id)
             company.products.push(product)
         })
+
+        res[3].forEach((post) => {
+            const company = companies.find(company => post.company_id === company.id)
+            company.posts.push(post)
+        })
+        console.log(ads)
         getAd(ads)
         
     })
@@ -56,12 +65,12 @@ function adCard(ad) {
     let ul = document.createElement("ul")
     container.appendChild(div1)
     div1.appendChild(ul)
-    // let productsArr = ad.company.products
-    // var rand = productsArr[(Math.random() * productsArr.length) | 0]
-    // // rand.forEach(product => {
-    // //     productCard(product)
-    // // })
-    // productCard(rand)
+    let productsArr = ad.company.products
+    var rand = productsArr[(Math.random() * productsArr.length) | 0]
+    // rand.forEach(product => {
+    //     productCard(product)
+    // })
+    productCard(rand)
     document.getElementById(`company-container-${ad.company_id}`).onclick=e => {
         clearAllDivs()
         showCompanyProfile(ad.company)
