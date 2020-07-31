@@ -6,7 +6,7 @@ class PostsController < ApplicationController
     end
 
     def create
-        post = Post.create(company: params[:company], customer: params[:customer], content: params[:content])
+        post = Post.create(company_id: params[:company_id], customer_id: params[:customer_id], content: params[:content])
         render json: post
     end
 end
