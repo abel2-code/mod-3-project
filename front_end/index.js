@@ -79,6 +79,7 @@ function adCard(ad) {
     div1.innerText = ad.company.name
 
     let ul = document.createElement("ul")
+    ul.classList.add("product-container")
     container.appendChild(div1)
     div1.appendChild(ul)
     let productsArr = ad.company.products
