@@ -31,9 +31,19 @@ function addSignedInListeners() {
     changeNavBarActive()
     document.getElementById('home').className = "active"
     addLogoutListener()
+    addHomeListener()
 }
 
 let form = document.getElementById('form')
+
+function addHomeListener() {
+  document.getElementById('home').onclick=e =>{
+  clearAllDivs()
+  changeNavBarActive()
+  document.getElementById('home').className = 'active'
+  showCustomerStuff()
+  }
+}
 
 function addLogoutListener() {
     console.log('doin great, baws')
@@ -440,7 +450,7 @@ function renderCompanyPosts(company) {
   })
 
 }
-
+let currentCustomerPosts = []
 function addPostButton(company) {
   if (signedIn) {
     const li = document.createElement('li')
@@ -462,7 +472,6 @@ function addPostButton(company) {
           company_id: company.id,
           customer_id: customers[customers.length -1].id
         }
-        console.log(post)
         fetch(postsUrl, {
           method: "POST",
           headers: {
@@ -475,7 +484,10 @@ function addPostButton(company) {
           last.removeAttribute('id')
           last.innerHTML = `"${post.content}" -${customers[customers.length -1].username}`;
           addPostButton(company)
-        }) 
+        })
+        currentCustomerPosts.push(post)
+        console.log(currentCustomerPosts)
+
       }
     }
 
@@ -498,4 +510,58 @@ function renderCompanyProducts(company) {
     `
   companyProducts.appendChild(li)
   })
+}
+
+function showCustomerStuff(){
+  const welcome = document.getElementById('welcome')
+  welcome.innerHTML = `
+    <div class="container-fluid">
+      <div class="company-box">
+        <div class="row">
+          <div>
+            <h1>Welcome, ${customers[customers.length -1].username}</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="left">
+            <h2>Things you've said about companies:</h2>
+          </div>
+          <div class="right">
+            <h4>Purchases you definitely don't regret:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="left">
+            <ul id="customer-posts" class="customer-posts"></ul>
+          </div>
+          <div class="right">
+            <div class="ad-card">
+              <div class="animated-text"
+                <ul id="company-ads" class="company-ads"><ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+
+    renderCustomerPosts()
+    // renderCustomerProducts()
+    console.log(customers[customers.length -1].posts)
+}
+
+
+
+function renderCustomerPosts() {
+  const customerPosts = document.getElementById('customer-posts')
+  customers[customers.length -1].posts.forEach(post => {
+    const li = document.createElement('li')
+    li.className = "customer-post"
+    li.innerHTML = `
+    "${post.content}"
+    `
+  customerPosts.appendChild(li)
+  })
+
 }

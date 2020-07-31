@@ -422,6 +422,13 @@ li a:hover:not(.active) {
   list-style: none;
 }
 
+.customer-posts {
+  float: left;
+  font-size:20;
+  padding-left: 50px;
+  list-style: none;
+}
+
 .customer-post{
   padding-bottom: 10px;
 }
