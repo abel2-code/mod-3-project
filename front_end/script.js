@@ -38,7 +38,7 @@ let form = document.getElementById('form')
 function addLogoutListener() {
     console.log('doin great, baws')
 
-    addBusinessAdsListener()
+    addSignedInBusinessAdsListener()
     const logout = document.getElementById('logout')
     logout.addEventListener('click', e => {
         signedIn = false;
@@ -56,6 +56,18 @@ function addSignedOutListeners() {
     addBusinessAdsListener()
 }
 
+function addSignedInBusinessAdsListener(){
+  const businessAds = document.getElementById('business-ads')
+  businessAds.addEventListener('click', e => {
+    clearAllDivs()
+    changeNavBarActive()
+
+    ads.forEach(ad => {
+      adCardLogin(ad)
+    })
+  })
+}
+
 function addBusinessAdsListener() {
   const businessAds = document.getElementById('business-ads')
   businessAds.addEventListener('click', e => {
@@ -65,7 +77,9 @@ function addBusinessAdsListener() {
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
     const companyPromise = fetch(companyUrl).then(res => res.json())
-    Promise.all([adPromise, productPromise, companyPromise]).then((res) => {
+    const postPromise = fetch(postsUrl).then(res => res.json())
+    const customerPromise = fetch(customerUrl).then(res => res.json())
+    Promise.all([adPromise, productPromise, companyPromise, postPromise, customerPromise]).then((res) => {
         // const [ads, products, companies] = res;
         ads = res[0].map((ad) => {
             ad.company = "" 
@@ -74,6 +88,7 @@ function addBusinessAdsListener() {
         })
         companies = res[2].map((company) => {
             company.products = []
+            company.posts = []
             return company
         })
         
@@ -88,6 +103,25 @@ function addBusinessAdsListener() {
             const company = companies.find(company => product.company_id === company.id)
             company.products.push(product)
         })
+
+        customerPosts = res[3].map((post) => {
+            post.customer = ""
+            return post
+        })
+
+        customers = res[4].map((customer) => {
+            return customer
+        })
+       
+
+        customerPosts.forEach((p) => {
+            const company = companies.find(company => p.company_id === company.id)
+            const customer = customers.find(customer => p.customer_id === customer.id)
+            p.customer = customer
+            company.posts.push(p)
+            
+        })
+        console.log(ads)
         getAd(ads)
         
     })
@@ -112,7 +146,7 @@ function addSigninListener() {
             <i class="fa fa-lock" aria-hidden="true"></i>
             <input id="existing-password" type="password" placeholder="Password" name="password" required>
           </div>
-          <input id="signin-button" class="btn btn-primary" type="submit" name="" value="Sign in">
+          <input id="signin-button" class="submit-btn" type="submit" name="" value="Sign in">
         </div>
         `
 
@@ -167,7 +201,7 @@ function addSignupListener() {
                 <option value="company">Company</option>
               </select>
             </div>
-                <button id='submit-to-log-in' type="submit" class="btn btn-primary">Submit</button>
+                <button id='submit-to-log-in' type="submit" class="submit-btn">Submit</button>
           </div>
         `
 
@@ -292,9 +326,14 @@ function greetNewCustomer(customer) {
       Looking for products? 
       Let's get started!
     </div>
+    <button id="explore-btn" class="explore-btn">Explore</button>
   </div>
   `
   fadeText()
+  document.getElementById('explore-btn').onclick=e => {
+    clearAllDivs()
+    ads.forEach(ad => {adCardLogin(ad)})
+  }
 }
 
 function greetNewCompany(company) {
@@ -343,68 +382,120 @@ function changeNavBarActive() {
 }
 
 function showCompanyProfile(company){
+  clearAllDivs()
+  changeNavBarActive()
   const companyProfile = document.getElementById('company-profile')
   companyProfile.innerHTML = `
-  <div class="container">
-  <h2>${company.name}</h2>
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-
-      <div class="item active">
-        <img src="la.jpg" alt="Los Angeles" style="width:100%;">
-        <div class="carousel-caption">
-          <h3>Los Angeles</h3>
-          <p>LA is always so much fun!</p>
+    <div class="container-fluid">
+      <div class="company-box">
+        <div class="row">
+          <div class="logo">
+            <img id="header-img" src=${company.logo}>
+          </div>
+          <div>
+            <h1>${company.name}</h1>
+          </div>
+          <div>
+            <h3>${company.slogan}</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="left">
+            <h2>See what our clients have to say:</h2>
+          </div>
+          <div class="right">
+            <h4>Try out our fantastic products:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="left">
+            <ul id="company-posts" class="company-posts"></ul>
+          </div>
+          <div class="right">
+            <div class="ad-card"
+              <ul id="a" class="a"><ul>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="item">
-        <img src="chicago.jpg" alt="Chicago" style="width:100%;">
-        <div class="carousel-caption">
-          <h3>Chicago</h3>
-          <p>Thank you, Chicago!</p>
-        </div>
-      </div>
-    
-      <div class="item">
-        <img src="ny.jpg" alt="New York" style="width:100%;">
-        <div class="carousel-caption">
-          <h3>New York</h3>
-          <p>We love the Big Apple!</p>
-        </div>
-      </div>
-  
     </div>
-
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-</div>
   `
 
+  renderCompanyPosts(company)
+  renderCompanyProducts(company)
+  addPostButton(company)
+}
+
+function renderCompanyPosts(company) {
   const companyPosts = document.getElementById('company-posts')
   company.posts.forEach(post => {
-    console.log(post)
-  //   const li = document.createElement('li')
-  //   li.className = "customer-post"
-  //   li.innerHTML = `
-  //   ${post.content}
-  //   `
-  // companyPosts.appendChild(li)
+    const li = document.createElement('li')
+    li.className = "customer-post"
+    li.innerHTML = `
+    "${post.content}" -${post.customer.username}
+    `
+  companyPosts.appendChild(li)
+  })
+
+}
+
+function addPostButton(company) {
+  if (signedIn) {
+    const li = document.createElement('li')
+    li.id = "last-post"
+    li.className = "customer-post"
+    li.innerHTML = `
+      <div class="textbox">
+        <i class="fa fa-comment-o" aria-hidden="true"></i>
+        <input id="make-post" type="text" placeholder="Tell us what you think">
+      </div>
+      <button id="post-btn" type="btn" class="post-btn">Add post</button>
+    `
+    document.getElementById('company-posts').appendChild(li)
+    const makePost = document.getElementById('make-post')
+    document.getElementById('post-btn').onclick=e => {
+      if (makePost.value != null && makePost.value.length >= 3) {
+        let post = {
+          content: makePost.value,
+          company_id: company.id,
+          customer_id: customers[customers.length -1].id
+        }
+        console.log(post)
+        fetch(postsUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify(post)
+        }).then(res => res.json()).then(post => {
+          let last = document.getElementById('last-post')
+          last.removeAttribute('id')
+          last.innerHTML = `"${post.content}" -${customers[customers.length -1].username}`;
+          addPostButton(company)
+        }) 
+      }
+    }
+
+    
+  }
+}
+
+
+function renderCompanyProducts(company) {
+  const companyProducts = document.querySelectorAll("ul")[2]
+  company.products.forEach(product => {
+    const li = document.createElement('li')
+    li.className = 'line'
+    li.innerHTML = `
+      <div class="product-card">
+      <h3 class="product-name">${product.name}</h3>
+      <img src=${product.image} class="product-img">
+      <br>
+      <h3 class="price">$${product.price}</h3>
+
+      </div>
+    `
+  companyProducts.appendChild(li)
   })
 }
