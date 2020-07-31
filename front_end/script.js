@@ -444,39 +444,40 @@ function addPostButton(company) {
     const li = document.createElement('li')
     li.id = "last-post"
     li.className = "customer-post"
-    li.innerHTML = `<div class="textbox">
-      <i class="fa fa-comment-o" aria-hidden="true"></i>
-      <input id="make-post" type="text" placeholder="Tell us what you think" required>
+    li.innerHTML = `
+      <div class="textbox">
+        <i class="fa fa-comment-o" aria-hidden="true"></i>
+        <input id="make-post" type="text" placeholder="Tell us what you think">
       </div>
       <button id="post-btn" type="btn" class="post-btn">Add post</button>
     `
-    const makePost = document.getElementById('make-post')
-    // console.log(makePost)
-    // document.getElementById('post-btn').onclick=e => {
-    //   if (makePost.value != null && makePost.value.length >= 3) {
-    //     let post = {
-    //       content: makePost.value,
-    //       company: company,
-    //       customer: customers.last
-    //     }
-    //     console.log(post)
-    //     // fetch(postsUrl, {
-    //     //   method: "POST",
-    //     //   headers: {
-    //     //     "Content-Type": "application/json",
-    //     //     Accept: "application/json"
-    //     //   },
-    //     //   body: JSON.stringify(post)
-    //     // }).then(res => res.json()).then(post => {
-    //     //   let last = document.getElementById('last-post')
-    //     //   last.removeAttribute('id')
-    //     //   last.innerHTML = `"${post.content}" -${post.customer.username}`;
-    //     //   addPostButton(company)
-    //     // }) 
-    //   }
-    // }
-
     document.getElementById('company-posts').appendChild(li)
+    const makePost = document.getElementById('make-post')
+    document.getElementById('post-btn').onclick=e => {
+      if (makePost.value != null && makePost.value.length >= 3) {
+        let post = {
+          content: makePost.value,
+          company_id: company.id,
+          customer_id: customers[customers.length -1].id
+        }
+        console.log(post)
+        fetch(postsUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify(post)
+        }).then(res => res.json()).then(post => {
+          let last = document.getElementById('last-post')
+          last.removeAttribute('id')
+          last.innerHTML = `"${post.content}" -${customers[customers.length -1].username}`;
+          addPostButton(company)
+        }) 
+      }
+    }
+
+    
   }
 }
 
