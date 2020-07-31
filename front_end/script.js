@@ -412,8 +412,10 @@ function showCompanyProfile(company){
             <ul id="company-posts" class="company-posts"></ul>
           </div>
           <div class="right">
-            <div class="ad-card"
-              <ul id="a" class="a"><ul>
+            <div class="ad-card">
+              <div class="animated-text"
+                <ul id="company-ads" class="company-ads"><ul>
+              </div>
             </div>
           </div>
         </div>
@@ -489,11 +491,9 @@ function renderCompanyProducts(company) {
     li.className = 'line'
     li.innerHTML = `
       <div class="product-card">
-      <h3 class="product-name">${product.name}</h3>
+      <h3 class="product-name">${product.name}<br>
+      $${product.price}</h3>
       <img src=${product.image} class="product-img">
-      <br>
-      <h3 class="price">$${product.price}</h3>
-
       </div>
     `
   companyProducts.appendChild(li)
