@@ -496,20 +496,24 @@ function addPostButton(company) {
   }
 }
 
-
+let currentCustomerProducts = []
 function renderCompanyProducts(company) {
   const companyProducts = document.querySelectorAll("ul")[2]
   company.products.forEach(product => {
     const li = document.createElement('li')
     li.className = 'line'
     li.innerHTML = `
-      <div class="product-card">
+      <div id="${product.id}" class="product-card">
       <h3 class="product-name">${product.name}<br>
       $${product.price}</h3>
       <img src=${product.image} class="product-img">
       </div>
     `
   companyProducts.appendChild(li)
+  document.getElementById(`${product.id}`).onclick=e => {
+    currentCustomerProducts.push(product)
+    console.log('too bad')
+  }
   })
 }
 
@@ -536,9 +540,9 @@ function showCustomerStuff(){
             <ul id="customer-posts" class="customer-posts"></ul>
           </div>
           <div class="right">
-            <div class="ad-card">
-              <div class="animated-text"
-                <ul id="company-ads" class="company-ads"><ul>
+            <div class="ad-container>
+              <div class="ad-card">
+                  <ul id="company-ads" class="company-ads"><ul>
               </div>
             </div>
           </div>
@@ -548,15 +552,14 @@ function showCustomerStuff(){
     `
 
     renderCustomerPosts()
-    // renderCustomerProducts()
-    console.log(customers[customers.length -1].posts)
+    renderCustomerProducts()
 }
 
 
 
 function renderCustomerPosts() {
   const customerPosts = document.getElementById('customer-posts')
-  customers[customers.length -1].posts.forEach(post => {
+  currentCustomerPosts.forEach(post => {
     const li = document.createElement('li')
     li.className = "customer-post"
     li.innerHTML = `
@@ -565,4 +568,20 @@ function renderCustomerPosts() {
   customerPosts.appendChild(li)
   })
 
+}
+
+function renderCustomerProducts() {
+  const customerProducts = document.getElementById('company-ads')
+  currentCustomerProducts.forEach(product => {
+    const li = document.createElement('li')
+    li.className = 'product'
+    li.innerHTML =  `
+    <div class="product-card">
+    <h3 class="product-name">${product.name}<br>NO REFUNDS!</h3>
+    <img src=${product.image} class="product-img">
+    </div>
+    `
+
+    customerProducts.appendChild(li)
+  })
 }
