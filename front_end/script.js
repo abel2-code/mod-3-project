@@ -486,7 +486,7 @@ function renderCompanyProducts(company) {
   const companyProducts = document.querySelectorAll("ul")[2]
   company.products.forEach(product => {
     const li = document.createElement('li')
-    li.className = 'product'
+    li.className = 'line'
     li.innerHTML = `
       <div class="product-card">
       <h3 class="product-name">${product.name}</h3>
