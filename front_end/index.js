@@ -66,6 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function getAd(adlist) {
+    let container = document.getElementById("ad-container")
+    container.innerHTML = ""
     adlist.forEach(ad => {
         adCard(ad)
     })

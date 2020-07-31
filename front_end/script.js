@@ -70,9 +70,10 @@ function addSignedInBusinessAdsListener(){
 
 function addBusinessAdsListener() {
   const businessAds = document.getElementById('business-ads')
-  businessAds.addEventListener('click', e => {
+  businessAds.addEventListener('click', (e) => {
     clearAllDivs()
     changeNavBarActive()
+    
 
     const adPromise = fetch(adUrl).then(res => res.json())
     const productPromise = fetch(productsUrl).then(res => res.json())
@@ -121,7 +122,7 @@ function addBusinessAdsListener() {
             company.posts.push(p)
             
         })
-        console.log(ads)
+        // console.log(ads)
         getAd(ads)
         
     })
