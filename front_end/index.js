@@ -82,11 +82,11 @@ function adCard(ad) {
     container.appendChild(div1)
     div1.appendChild(ul)
     let productsArr = ad.company.products
-    var rand = productsArr[(Math.random() * productsArr.length) | 0]
-    // rand.forEach(product => {
-    //     productCard(product)
-    // })
-    productCard(rand)
+    // var rand = productsArr[(Math.random() * productsArr.length) | 0]
+    productsArr.forEach(product => {
+        productCard(product)
+    })
+    // productCard(rand)
     document.getElementById(`company-container-${ad.company_id}`).onclick=e => {
         clearAllDivs()
         showCompanyProfile(ad.company)
@@ -122,4 +122,5 @@ function adCardLogin(ad) {
     div1.id = `company-container-${ad.company_id}`
     div1.innerText = ad.company.name
     container.appendChild(div1)
+    div1.onclick=e =>{showCompanyProfile(ad.company)}
 }
